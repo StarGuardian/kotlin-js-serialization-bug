@@ -11,13 +11,6 @@ class OperationResultSerializationTest {
 
     val jsonFormat = Json {
         serializersModule = SerializersModule {
-//            polymorphic(OperationResult::class) {
-////                subclass(OperationSuccess.serializer(PolymorphicSerializer(Any::class)))
-//                contextual(OperationSuccess::class) { OperationSuccess.serializer(it[0]) }
-//                subclass(OperationFailure.serializer())
-//                subclass(ActionSuccess.serializer())
-//            }
-//
             polymorphic(Any::class) {
                 subclass(IntPayload::class)
             }
@@ -30,7 +23,7 @@ class OperationResultSerializationTest {
         val success = OperationSuccess(IntPayload(42))
 
         val successJson = serialize(success)
-        val deserializedSuccess = deserialize<OperationResult<IntPayload>>(successJson)
+        val deserializedSuccess = deserialize<IntPayload>(successJson)
 
         DefaultAsserter.assertEquals(null, success, deserializedSuccess)
     }
